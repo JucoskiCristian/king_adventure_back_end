@@ -12,8 +12,8 @@ Este projeto é uma API em Go que permite gerenciar usuários e registrar pontua
 1. Clone o repositório e navegue até o diretório do projeto:
 
    ```sh
-   git clone <URL_DO_REPOSITORIO>
-   cd <NOME_DO_DIRETORIO>
+   git clone https://github.com/JucoskiCristian/king_adventure_back_end.git
+   cd king_adventure_back_end
    ```
 
 2. Instale as dependências:
