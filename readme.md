@@ -142,11 +142,11 @@ O servidor será iniciado em http://localhost:8080.
 
     Resposta de Sucesso: 201 Created
 
-5. Listar os 10 Menores Scores
+5. Listar os 10 Maiores Scores
 
 - Rota: GET /scores
 
-- Descrição: Lista os 10 menores scores em ordem crescente, incluindo o nome do usuário, created_at e updated_at do score.
+- Descrição: Lista os 10 maiores scores em ordem decrescente, incluindo o nome do usuário, created_at e updated_at do score.
 
 - Resposta de Exemplo:
 
