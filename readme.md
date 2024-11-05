@@ -90,10 +90,9 @@ O servidor será iniciado em http://localhost:8080.
 - Exemplo de Requisição:
 
 ```json
-Copiar código
 {
-"username": "nome_usuario",
-"password": "senha_segura"
+  "username": "nome_usuario",
+  "password": "senha_segura"
 }
 ```
 
