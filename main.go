@@ -52,6 +52,7 @@ func main() {
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/score", addScoreHandler)
 	http.HandleFunc("/scores", getTopScoresHandler)
+	http.HandleFunc("/docs", docsHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -207,4 +208,67 @@ func getTopScoresHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Erro ao gerar resposta JSON", http.StatusInternalServerError)
 		return
 	}
+}
+// Função para servir a página de documentação
+func docsHandler(w http.ResponseWriter, r *http.Request) {
+	htmlContent := `
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>API Documentation</title>
+		<style>
+			body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+			h1 { color: #333; }
+			h2 { color: #555; }
+			pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+		</style>
+	</head>
+	<body>
+		<h1>API Documentation</h1>
+		<p>Bem-vindo à documentação da API. Abaixo, você encontrará detalhes sobre cada rota disponível, o método HTTP e os parâmetros esperados.</p>
+		
+		<h2>Endpoints</h2>
+		
+		<h3>1. Register User</h3>
+		<p><strong>Rota:</strong> <code>/register</code></p>
+		<p><strong>Método:</strong> POST</p>
+		<p><strong>Descrição:</strong> Registra um novo usuário.</p>
+		<p><strong>Body:</strong></p>
+		<pre>{
+    "username": "string",
+    "password": "string"
+}</pre>
+
+		<h3>2. Login</h3>
+		<p><strong>Rota:</strong> <code>/login</code></p>
+		<p><strong>Método:</strong> POST</p>
+		<p><strong>Descrição:</strong> Faz login para o usuário.</p>
+		<p><strong>Body:</strong></p>
+		<pre>{
+    "username": "string",
+    "password": "string"
+}</pre>
+
+		<h3>3. Add Score</h3>
+		<p><strong>Rota:</strong> <code>/score</code></p>
+		<p><strong>Método:</strong> POST</p>
+		<p><strong>Descrição:</strong> Adiciona um novo score para o usuário.</p>
+		<p><strong>Body:</strong></p>
+		<pre>{
+    "user_id": "integer",
+    "score": "integer"
+}</pre>
+
+		<h3>4. Top Scores</h3>
+		<p><strong>Rota:</strong> <code>/scores</code></p>
+		<p><strong>Método:</strong> GET</p>
+		<p><strong>Descrição:</strong> Retorna o top 10 scores de usuários.</p>
+
+	</body>
+	</html>
+	`
+	w.Header().Set("Content-Type", "text/html")
+	w.Write([]byte(htmlContent))
 }
