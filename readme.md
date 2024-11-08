@@ -44,12 +44,41 @@ Este projeto é uma API em Go que permite gerenciar usuários e registrar pontua
    );
    ```
 
-4. Configure a string de conexão no código Go:
+4. No diretório raiz do projeto, crie um arquivo `.env` com o seguinte conteúdo:
 
-   No arquivo main.go, substitua connStr pelas credenciais de acesso ao seu banco PostgreSQL.
+   ```plaintext
+   DATABASE_URL=postgresql://<USUARIO>:<SENHA>@<HOST>:<PORTA>/<NOME_DO_BANCO>
+   PORT=8080
+   ```
+
+5. Instale uma biblioteca para carregar as variáveis de ambiente, como [Godotenv](github.com/joho/godotenv)
+
+   ```shel
+   go get github.com/joho/godotenv
+   ```
+
+6. No arquivo main.go, adicione o código para carregar as variáveis de ambiente:
 
    ```go
-    connStr := "postgresql://postgres:<SENHA>@<HOST>:<PORTA>/postgres"
+   import (
+       "os"
+       "log"
+       "github.com/joho/godotenv"
+   )
+
+   func main() {
+       // Carrega as variáveis do arquivo .env
+       if err := godotenv.Load(); err != nil {
+           log.Println("Nenhum arquivo .env encontrado")
+       }
+
+       connStr := os.Getenv("DATABASE_URL")
+       if connStr == "" {
+           log.Fatalf("Variável de ambiente DATABASE_URL não está configurada")
+       }
+
+       // ... restante do código
+   }
    ```
 
 ## Executando a Aplicação
@@ -91,6 +120,7 @@ O servidor será iniciado em http://localhost:8080.
 
 ```json
 {
+  "user_id": "userID",
   "username": "nome_usuario",
   "password": "senha_segura"
 }
@@ -98,34 +128,7 @@ O servidor será iniciado em http://localhost:8080.
 
     Resposta de Sucesso: 200 OK
 
-3. Listar Todos os Usuários
-
-- Rota: GET /users
-
-- Descrição: Lista todos os usuários cadastrados, incluindo id, username, status, created_at e updated_at.
-
-- Resposta de Exemplo:
-
-```json
-[
-  {
-    "id": 1,
-    "username": "nome_usuario",
-    "status": "active",
-    "created_at": "2023-10-30T12:00:00Z",
-    "updated_at": "2023-10-30T12:00:00Z"
-  },
-  {
-    "id": 2,
-    "username": "outro_usuario",
-    "status": "inactive",
-    "created_at": "2023-10-30T12:00:00Z",
-    "updated_at": "2023-10-30T12:00:00Z"
-  }
-]
-```
-
-4. Adicionar um Score:
+3. Adicionar um Score:
 
 - Rota: POST /score
 
