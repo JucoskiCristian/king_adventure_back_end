@@ -238,9 +238,9 @@ func docsHandler(w http.ResponseWriter, r *http.Request) {
         background-color: #fff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
-      h1,
-      h2 {
-        color: #333;
+      h1,h2 {
+        color: #fff;
+				
       }
       .endpoint {
         margin-bottom: 20px;
@@ -277,10 +277,10 @@ func docsHandler(w http.ResponseWriter, r *http.Request) {
   <body>
     <header>
       <h1>Documentação da API</h1>
-      <p>
+      <h2>
         Bem-vindo à documentação da API. Abaixo estão os detalhes para cada endpoint
         disponível.
-      </p>
+      </h2>
     </header>
     <div class="container">
       <div class="endpoint">
