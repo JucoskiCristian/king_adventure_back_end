@@ -64,32 +64,39 @@ func main() {
 	}
 }
 
-// Função para registrar um usuário
+// Função para registrar um usuário com verificação de duplicidade
 func registerHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-			http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
-			return
+		http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
+		return
 	}
 
 	var user User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-			http.Error(w, "Erro ao decodificar JSON", http.StatusBadRequest)
-			return
+		http.Error(w, "Erro ao decodificar JSON", http.StatusBadRequest)
+		return
 	}
 
-	// Gera um hash seguro da senha
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	// Verifica se o username já existe no banco de dados
+	var exists bool
+	err := db.QueryRow("SELECT EXISTS(SELECT 1 FROM users WHERE username=$1)", user.Username).Scan(&exists)
 	if err != nil {
-			http.Error(w, "Erro ao criptografar senha", http.StatusInternalServerError)
-			return
+		log.Printf("Erro ao verificar duplicidade de usuário: %v", err)
+		http.Error(w, "Erro ao verificar duplicidade de usuário", http.StatusInternalServerError)
+		return
 	}
 
-	// Armazena o usuário com a senha criptografada
-	_, err = db.Exec("INSERT INTO users (username, password) VALUES ($1, $2)", user.Username, hashedPassword)
+	if exists {
+		http.Error(w, "Usuário já existe", http.StatusConflict)
+		return
+	}
+
+	// Insere o novo usuário no banco de dados
+	_, err = db.Exec("INSERT INTO users (username, password) VALUES ($1, $2)", user.Username, user.Password)
 	if err != nil {
-			log.Printf("Erro ao inserir usuário: %v", err)
-			http.Error(w, "Erro ao registrar usuário", http.StatusInternalServerError)
-			return
+		log.Printf("Erro ao inserir usuário: %v", err)
+		http.Error(w, "Erro ao registrar usuário", http.StatusInternalServerError)
+		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
