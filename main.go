@@ -212,62 +212,150 @@ func getTopScoresHandler(w http.ResponseWriter, r *http.Request) {
 // Função para servir a página de documentação
 func docsHandler(w http.ResponseWriter, r *http.Request) {
 	htmlContent := `
-	<!DOCTYPE html>
-	<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>API Documentation</title>
-		<style>
-			body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-			h1 { color: #333; }
-			h2 { color: #555; }
-			pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
-		</style>
-	</head>
-	<body>
-		<h1>API Documentation</h1>
-		<p>Bem-vindo à documentação da API. Abaixo, você encontrará detalhes sobre cada rota disponível, o método HTTP e os parâmetros esperados.</p>
-		
-		<h2>Endpoints</h2>
-		
-		<h3>1. Register User</h3>
-		<p><strong>Rota:</strong> <code>/register</code></p>
-		<p><strong>Método:</strong> POST</p>
-		<p><strong>Descrição:</strong> Registra um novo usuário.</p>
-		<p><strong>Body:</strong></p>
-		<pre>{
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentação da API</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+      }
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+      .container {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2 {
+        color: #333;
+      }
+      .endpoint {
+        margin-bottom: 20px;
+      }
+      .endpoint h3 {
+        margin-top: 0;
+      }
+      .method {
+        display: inline-block;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+        font-weight: bold;
+        color: #fff;
+        border-radius: 5px;
+      }
+      .post {
+        background-color: #4caf50;
+      }
+      .get {
+        background-color: #2196f3;
+      }
+      .description {
+        margin: 10px 0;
+      }
+      pre {
+        background-color: #f4f4f4;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Documentação da API</h1>
+      <p>
+        Bem-vindo à documentação da API. Abaixo estão os detalhes para cada endpoint
+        disponível.
+      </p>
+    </header>
+    <div class="container">
+      <div class="endpoint">
+        <h3>/register</h3>
+        <span class="method post">POST</span>
+        <p class="description">Registrar novos usuários.</p>
+        <h4>Corpo da Requisição</h4>
+        <pre>
+{
     "username": "string",
     "password": "string"
 }</pre>
+        <h4>Resposta</h4>
+        <pre>
+{
+    "message": "Usuário 'NOME_DO_USUÁRIO' registrado com sucesso"
+}</pre>
+      </div>
 
-		<h3>2. Login</h3>
-		<p><strong>Rota:</strong> <code>/login</code></p>
-		<p><strong>Método:</strong> POST</p>
-		<p><strong>Descrição:</strong> Faz login para o usuário.</p>
-		<p><strong>Body:</strong></p>
-		<pre>{
+      <div class="endpoint">
+        <h3>/login</h3>
+        <span class="method post">POST</span>
+        <p class="description">
+          Retorna uma mensagem de sucesso para login, junto com o ID e nome de usuário.
+        </p>
+        <h4>Corpo da Requisição</h4>
+        <pre>
+{
     "username": "string",
     "password": "string"
 }</pre>
+        <h4>Resposta</h4>
+        <pre>
+{
+  "message":  "Login bem-sucedido",
+  "user_id":  "integer",
+  "username": "string"
+}</pre>
+      </div>
 
-		<h3>3. Add Score</h3>
-		<p><strong>Rota:</strong> <code>/score</code></p>
-		<p><strong>Método:</strong> POST</p>
-		<p><strong>Descrição:</strong> Adiciona um novo score para o usuário.</p>
-		<p><strong>Body:</strong></p>
-		<pre>{
+      <div class="endpoint">
+        <h3>/score</h3>
+        <span class="method post">POST</span>
+        <p class="description">Adicionar uma pontuação para um usuário.</p>
+        <h4>Corpo da Requisição</h4>
+        <pre>
+{
     "user_id": "integer",
     "score": "integer"
 }</pre>
+        <h4>Resposta</h4>
+        <pre>
+{
+    "message": "Pontuação 'score' registrada com sucesso para o usuário ID 'user_id'"
+}</pre>
+      </div>
 
-		<h3>4. Top Scores</h3>
-		<p><strong>Rota:</strong> <code>/scores</code></p>
-		<p><strong>Método:</strong> GET</p>
-		<p><strong>Descrição:</strong> Retorna o top 10 scores de usuários.</p>
-
-	</body>
-	</html>
+      <div class="endpoint">
+        <h3>/scores</h3>
+        <span class="method get">GET</span>
+        <p class="description">Retorna o top 10 de pontuações em ordem decrescente.</p>
+        <h4>Resposta</h4>
+        <pre>
+[
+    {
+        "user_id": "integer",
+        "username": "string",
+        "score": "integer"
+    },
+    ...
+]</pre>
+      </div>
+    </div>
+  </body>
+</html>
 	`
 	w.Header().Set("Content-Type", "text/html")
 	w.Write([]byte(htmlContent))
