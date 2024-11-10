@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	// "github.com/joho/godotenv"
+	// "github.com/joho/godotenv" // se for usar localhost desmente essa linha
 	"github.com/rs/cors"
 	"golang.org/x/crypto/bcrypt"
 
@@ -33,8 +33,8 @@ type Score struct {
 var db *sql.DB
 
 func main() {
-	// Tente carregar o arquivo .env
-	// err := godotenv.Load() // linha para deploy no render - para local host deixar em branco
+	// Descomente esse bloco para usar o aquivo .env em local host, comentando para deploy no render!
+	// err := godotenv.Load()
 	// if err != nil {
 	// 	log.Fatal("Erro ao carregar o arquivo .env")
 	// }
