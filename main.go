@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 	"github.com/rs/cors"
 	"golang.org/x/crypto/bcrypt"
 
@@ -34,10 +34,10 @@ var db *sql.DB
 
 func main() {
 	// Tente carregar o arquivo .env
-	err := godotenv.Load() // linha para deploy no render - para local host deixar em branco
-	if err != nil {
-		log.Fatal("Erro ao carregar o arquivo .env")
-	}
+	// err := godotenv.Load() // linha para deploy no render - para local host deixar em branco
+	// if err != nil {
+	// 	log.Fatal("Erro ao carregar o arquivo .env")
+	// }
 
 	// Agora que o arquivo foi carregado, acesse as variáveis
 	connStr := os.Getenv("DATABASE_URL")
@@ -45,7 +45,8 @@ func main() {
 	if connStr == "" {
 		log.Fatal("Variável de ambiente DATABASE_URL não está configurada")
 	}
-
+	var err error
+	
 	// Abra a conexão com o banco de dados
 	db, err = sql.Open("postgres", connStr)
 	if err != nil {
