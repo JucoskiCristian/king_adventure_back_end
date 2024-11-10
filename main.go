@@ -244,65 +244,135 @@ func getTopScoresHandler(w http.ResponseWriter, r *http.Request) {
 // Função para servir a página de documentação
 func docsHandler(w http.ResponseWriter, r *http.Request) {
 	htmlContent := `<!DOCTYPE html>
-	<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Documentação da API</title>
-		<style>
-			body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f7f7f7; }
-			header { background-color: #333; color: #fff; padding: 10px 0; text-align: center; }
-			h1 { margin: 0; font-size: 24px; }
-			main { padding: 20px; }
-			section { margin-bottom: 20px; }
-			h2 { color: #333; font-size: 20px; }
-			code { background-color: #f2f2f2; padding: 5px 10px; border-radius: 4px; }
-			ul { margin: 0; padding-left: 20px; }
-		</style>
-	</head>
-	<body>
-		<header>
-			<h1>Documentação da API</h1>
-		</header>
-		<main>
-			<section>
-				<h2>1. Registro de Usuário</h2>
-				<p>Rota: <code>POST /register</code></p>
-				<p>Descrição: Registra um novo usuário.</p>
-				<p>Parâmetros:</p>
-				<ul>
-					<li><code>username</code>: Nome de usuário.</li>
-					<li><code>password</code>: Senha do usuário.</li>
-				</ul>
-			</section>
-			<section>
-				<h2>2. Login de Usuário</h2>
-				<p>Rota: <code>POST /login</code></p>
-				<p>Descrição: Faz login de um usuário.</p>
-				<p>Parâmetros:</p>
-				<ul>
-					<li><code>username</code>: Nome de usuário.</li>
-					<li><code>password</code>: Senha do usuário.</li>
-				</ul>
-			</section>
-			<section>
-				<h2>3. Adicionar Score</h2>
-				<p>Rota: <code>POST /score</code></p>
-				<p>Descrição: Adiciona um score para um usuário.</p>
-				<p>Parâmetros:</p>
-				<ul>
-					<li><code>user_id</code>: ID do usuário.</li>
-					<li><code>score</code>: Valor do score.</li>
-				</ul>
-			</section>
-			<section>
-				<h2>4. Top Scores</h2>
-				<p>Rota: <code>GET /scores</code></p>
-				<p>Descrição: Retorna os top 10 scores.</p>
-			</section>
-		</main>
-	</body>
-	</html>`
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentação da API</title>
+    <style>
+        /* Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* Body and Layout */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1d1f27;
+            color: #eaeaea;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        main {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            background-color: #282a36;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #44475a;
+            border-radius: 8px 8px 0 0;
+        }
+        header h1 {
+            color: #f8f8f2;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        /* Section Titles */
+        h2 {
+            color: #8be9fd;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #6272a4;
+            padding-bottom: 5px;
+        }
+
+        /* Content */
+        section {
+            margin-bottom: 25px;
+        }
+        p, ul {
+            margin: 10px 0;
+            color: #f8f8f2;
+        }
+
+        /* Code Blocks */
+        code {
+            background-color: #44475a;
+            color: #50fa7b;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.95em;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Lists */
+        ul {
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+        ul li {
+            margin: 5px 0;
+        }
+
+        /* Responsive Typography */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Documentação da API</h1>
+    </header>
+    <main>
+        <section>
+            <h2>1. Registro de Usuário</h2>
+            <p>Rota: <code>POST /register</code></p>
+            <p>Descrição: Registra um novo usuário.</p>
+            <p>Parâmetros:</p>
+            <ul>
+                <li><code>username</code>: Nome de usuário.</li>
+                <li><code>password</code>: Senha do usuário.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>2. Login de Usuário</h2>
+            <p>Rota: <code>POST /login</code></p>
+            <p>Descrição: Faz login de um usuário.</p>
+            <p>Parâmetros:</p>
+            <ul>
+                <li><code>username</code>: Nome de usuário.</li>
+                <li><code>password</code>: Senha do usuário.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>3. Adicionar Score</h2>
+            <p>Rota: <code>POST /score</code></p>
+            <p>Descrição: Adiciona um score para um usuário.</p>
+            <p>Parâmetros:</p>
+            <ul>
+                <li><code>user_id</code>: ID do usuário.</li>
+                <li><code>score</code>: Valor do score.</li>
+            </ul>
+        </section>
+        <section>
+            <h2>4. Top Scores</h2>
+            <p>Rota: <code>GET /scores</code></p>
+            <p>Descrição: Retorna os top 10 scores.</p>
+        </section>
+    </main>
+</body>
+</html>
+`
 	w.Header().Set("Content-Type", "text/html")
 	w.Write([]byte(htmlContent))
 }
