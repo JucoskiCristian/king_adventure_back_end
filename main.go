@@ -34,7 +34,7 @@ var db *sql.DB
 
 func main() {
 	// Tente carregar o arquivo .env
-	err := godotenv.Load("/etc/secrets/.env") // linha para deploy no render - para local host deixar em branco
+	err := godotenv.Load() // linha para deploy no render - para local host deixar em branco
 	if err != nil {
 		log.Fatal("Erro ao carregar o arquivo .env")
 	}
